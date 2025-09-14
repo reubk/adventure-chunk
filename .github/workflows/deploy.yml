@@ -44,11 +44,14 @@ jobs:
         script: |
           echo "🚀 Starting deployment..."
           cd /var/www/adventure-chunk
-          git pull origin main
+          git fetch origin
+          git reset --hard origin/main
           echo "📦 Installing dependencies..."
           cd client && npm ci
           echo "🔨 Building frontend..."
           npm run build
+          echo "🔍 Checking favicon..."
+          ls -la client/dist/favicon.svg || echo "Favicon not found in dist"
           echo "🔄 Reloading nginx..."
           sudo systemctl reload nginx
           echo "✅ Deployment complete!"
