@@ -11,11 +11,19 @@ jobs:
     
     steps:
     - name: Deploy to EC2
-      run: |
-        echo "🚀 Triggering deployment on EC2 server..."
-        echo "This would typically SSH into your EC2 instance and run:"
-        echo "  cd /var/www/adventure-chunk"
-        echo "  git pull origin main"
-        echo "  cd client && npm run build"
-        echo "  sudo systemctl reload nginx"
-        echo "✅ Deployment triggered!"
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        script: |
+          echo "🚀 Starting deployment..."
+          cd /var/www/adventure-chunk
+          git pull origin main
+          echo "📦 Installing dependencies..."
+          cd client && npm ci
+          echo "🔨 Building frontend..."
+          npm run build
+          echo "🔄 Reloading nginx..."
+          sudo systemctl reload nginx
+          echo "✅ Deployment complete!"
