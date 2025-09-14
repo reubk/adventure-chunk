@@ -1,0 +1,30 @@
+name: Deploy to EC2 (Simple)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy to EC2 (Simple)
+      uses: appleboy/ssh-action@v1.0.3
+      with:
+        host: ${{ secrets.EC2_HOST }}
+        username: ${{ secrets.EC2_USERNAME }}
+        key: ${{ secrets.EC2_SSH_KEY }}
+        port: 22
+        timeout: 60s
+        command_timeout: 30m
+        script: |
+          echo "🚀 Starting deployment..."
+          cd /var/www/adventure-chunk
+          git pull origin main
+          echo "📦 Installing dependencies..."
+          cd client && npm ci
+          echo "🔨 Building frontend..."
+          npm run build
+          echo "🔄 Reloading nginx..."
+          sudo systemctl reload nginx
+          echo "✅ Deployment complete!"
