@@ -25,7 +25,7 @@
                 "ec2:RevokeSecurityGroupIngress",
                 "ec2:AuthorizeSecurityGroupIngress"
             ],
-            "Resource": "arn:aws:ec2:ap-southeast-1:*:security-group/*"
+            "Resource": "arn:aws:ec2:ap-southeast-2:*:security-group/*"
         },
         {
             "Sid": "DescribeGroups",
@@ -77,4 +77,4 @@ Common regions:
 - `us-west-2` (Oregon)  
 - `eu-west-1` (Ireland)
 - `ap-southeast-1` (Singapore)
-- `ap-southeast-2` (Sydney)
+- `ap-southeast-2` (Sydney) ← **Your region**
