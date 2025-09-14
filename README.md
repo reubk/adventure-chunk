@@ -8,45 +8,9 @@ You enter your address and how far you're willing to drive, then it shows you ch
 
 The tool pulls real observation data from iNaturalist, so you know there's actually stuff to see in each area. When you click on a chunk, it shows you what's been photographed there and where exactly those photos were taken.
 
-## Getting it running
+## Try it out
 
-You need Python 3.11+ and Node.js. You'll also need API keys from Mapbox (they have a free tier).
-
-### Backend setup
-
-```bash
-cd server
-python -m venv venv
-source venv/bin/activate
-pip install fastapi uvicorn aiohttp shapely pyproj python-dotenv
-```
-
-Create `server/.env` with your Mapbox key:
-```
-MAPBOX_API_KEY=your_secret_key_here
-```
-
-Run it:
-```bash
-uvicorn app.main:app --reload
-```
-
-### Frontend setup
-
-```bash
-cd client
-npm install
-```
-
-Create `client/.env` with your public Mapbox key:
-```
-VITE_MAPBOX_PUBLIC_KEY=your_public_key_here
-```
-
-Run it:
-```bash
-npm run dev
-```
+The app is live at: **https://your-domain.com** (update this when you set up your domain)
 
 ## Using it
 

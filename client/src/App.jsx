@@ -129,6 +129,7 @@ function App() {
   const [observations, setObservations] = useState([]);
   const [showInfo, setShowInfo] = useState(false);
   const [selectedChunkBounds, setSelectedChunkBounds] = useState(null);
+  const [showMenu, setShowMenu] = useState(true);
 
   // Save selectedCategories to localStorage whenever it changes
   useEffect(() => {
@@ -760,7 +761,17 @@ Center: ${((min_lat + max_lat) / 2).toFixed(6)}, ${((min_lon + max_lon) / 2).toF
     <>
       {isLoading && <div className="loading-overlay">{message}</div>}
       
-      <div className="sidebar controls-panel">
+      {/* Mobile menu toggle button */}
+      <button 
+        className="menu-toggle" 
+        onClick={() => setShowMenu(!showMenu)}
+        title={showMenu ? "Hide menu" : "Show menu"}
+      >
+        {showMenu ? "🗺️" : "⚙️"}
+      </button>
+      
+      {showMenu && (
+        <div className="sidebar controls-panel">
         <div className="header-with-info">
           <h2>Adventure Chunk</h2>
           <button 
@@ -874,8 +885,9 @@ Center: ${((min_lat + max_lat) / 2).toFixed(6)}, ${((min_lon + max_lon) / 2).toF
           </div>
         )}
       </div>
+    )}
 
-      {observations.length > 0 && (
+      {observations.length > 0 && showMenu && (
           <div className="sidebar results-panel">
               <h3>Observations in Chunk</h3>
               {observations.map(obs => (
@@ -890,7 +902,7 @@ Center: ${((min_lat + max_lat) / 2).toFixed(6)}, ${((min_lon + max_lon) / 2).toF
                   </div>
               ))}
           </div>
-      )}
+        )}
       
       <div ref={mapContainer} className="map-container" />
       

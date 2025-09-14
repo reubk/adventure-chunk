@@ -454,12 +454,37 @@ h2, h3 {
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
 }
 
+/* Menu Toggle Button */
+.menu-toggle {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 1000;
+  background: linear-gradient(145deg, #8B4513, #A0522D);
+  border: 1px solid #654321;
+  color: #F4E4BC;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 16px;
+  width: 45px;
+  height: 45px;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+
+.menu-toggle:hover {
+  background: linear-gradient(145deg, #A0522D, #CD853F);
+  transform: scale(1.05);
+}
+
 /* Mobile Responsive Design */
 @media (max-width: 768px) {
-  .container {
-    flex-direction: column;
-    height: 100vh;
-    overflow: hidden;
+  .menu-toggle {
+    display: flex;
   }
   
   .sidebar {
@@ -469,12 +494,28 @@ h2, h3 {
     overflow-y: auto;
     border-right: none;
     border-bottom: 2px solid #8B4513;
+    transition: transform 0.3s ease;
+  }
+  
+  .sidebar.hidden {
+    transform: translateY(-100%);
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
   }
   
   .map-container {
     width: 100%;
-    height: 50vh;
-    min-height: 300px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+  }
+  
+  .map-container.full-screen {
+    height: 100vh;
   }
   
   .header {
