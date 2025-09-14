@@ -5,7 +5,7 @@ import './App.css';
 
 // Set the public Mapbox access token
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_PUBLIC_KEY;
-const API_BASE_URL = 'http://localhost:8000';
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL || 'http://localhost:8000';
 
 function App() {
   const mapContainer = useRef(null);
