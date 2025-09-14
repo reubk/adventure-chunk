@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html><head><title>API Test</title></head><body>
+<h1>Adventure Chunk API Test</h1>
+<button onclick="testAPI()">Test API Connection</button>
+<div id="result"></div>
+<script>
+function testAPI() {
+  fetch('http://3.25.152.237/api/find-chunks', {
+    method: 'POST',
+    headers: {'Content-Type': 'application/json'}, 
+    body: JSON.stringify({lat: -37.840935, lon: 145.015794, drivetime: 30, chunkSize: 1})
+  })
+  .then(response => response.text())
+  .then(data => document.getElementById('result').innerHTML = '<pre>' + data.substring(0, 500) + '...</pre>')
+  .catch(error => document.getElementById('result').innerHTML = 'Error: ' + error)
+}
+</script></body></html>

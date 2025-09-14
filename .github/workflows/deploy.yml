@@ -1,0 +1,21 @@
+name: Deploy to EC2
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Deploy to EC2
+      run: |
+        echo "🚀 Triggering deployment on EC2 server..."
+        echo "This would typically SSH into your EC2 instance and run:"
+        echo "  cd /var/www/adventure-chunk"
+        echo "  git pull origin main"
+        echo "  cd client && npm run build"
+        echo "  sudo systemctl reload nginx"
+        echo "✅ Deployment triggered!"
