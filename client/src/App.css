@@ -1,0 +1,455 @@
+@import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&display=swap');
+
+/* RuneScape-style font fallback for users without the local RuneScape UF font */
+@font-face {
+  font-family: 'RuneScape UF';
+  src: url('https://fonts.gstatic.com/s/orbitron/v25/yMJMMIlzdpvBhQQL_SC3X9yhF25-T1nyGy6BoWgz.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* Additional fallback for better RuneScape-like appearance */
+@font-face {
+  font-family: 'RuneScape UF';
+  src: local('Orbitron'), local('Courier New'), local('monospace');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  font-family: 'RuneScape UF', 'Orbitron', 'Courier New', monospace;
+  line-height: 1.5;
+  font-weight: 400;
+  color-scheme: light dark;
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #242424;
+}
+
+body {
+  margin: 0;
+  display: flex;
+  place-items: center;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+#root {
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  position: relative;
+}
+
+.map-container {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+}
+
+.sidebar {
+  position: absolute;
+  top: 10px;
+  z-index: 10;
+  background: linear-gradient(135deg, rgba(139, 69, 19, 0.95) 0%, rgba(101, 67, 33, 0.95) 100%);
+  padding: 20px;
+  border-radius: 8px;
+  border: 3px solid #8B4513;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.5);
+  max-height: 95vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
+
+.controls-panel {
+  left: 10px;
+  width: 300px;
+}
+
+.results-panel {
+  right: 10px;
+  width: 320px;
+}
+
+.control-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+label {
+  font-weight: 700;
+  font-size: 0.9em;
+  color: #FFF;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+input, select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 4px;
+  border: 2px solid #8B4513;
+  background: linear-gradient(135deg, #2F1B14 0%, #1A0F0A 100%);
+  color: #FFF;
+  box-sizing: border-box;
+  font-family: inherit;
+  font-weight: 500;
+}
+input:focus, select:focus {
+  outline: none;
+  border-color: #CD853F;
+  box-shadow: 0 0 8px rgba(205, 133, 63, 0.5);
+}
+
+input:disabled {
+  background: linear-gradient(135deg, #1A0F0A 0%, #0A0503 100%);
+  border-color: #555;
+  color: #888;
+  cursor: not-allowed;
+}
+
+.checkbox-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.checkbox-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.checkbox-label:hover {
+  background: rgba(205, 133, 63, 0.1);
+}
+
+.checkbox-label input[type="checkbox"] {
+  margin: 0;
+  width: auto;
+  accent-color: #CD853F;
+}
+
+.checkbox-text {
+  font-size: 14px;
+  color: #FFF;
+  user-select: none;
+}
+
+/* Parkland filter checkbox styling */
+.control-group label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #FFF;
+}
+
+.control-group label input[type="checkbox"] {
+  margin: 0;
+  width: auto;
+  accent-color: #CD853F;
+  transform: scale(1.2);
+}
+
+.address-input-container {
+  position: relative;
+}
+
+.address-suggestions {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  background: linear-gradient(135deg, #2D1810 0%, #1A0F0A 100%);
+  border: 2px solid #8B4513;
+  border-top: none;
+  border-radius: 0 0 4px 4px;
+  max-height: 200px;
+  overflow-y: auto;
+  z-index: 1000;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.suggestion-item {
+  padding: 12px 16px;
+  color: #FFF;
+  cursor: pointer;
+  border-bottom: 1px solid #8B4513;
+  font-size: 14px;
+  transition: background-color 0.2s;
+}
+
+.suggestion-item:hover {
+  background: rgba(205, 133, 63, 0.2);
+}
+
+.suggestion-item:last-child {
+  border-bottom: none;
+}
+
+button {
+  padding: 12px 20px;
+  border-radius: 4px;
+  border: 2px solid #8B4513;
+  font-weight: 700;
+  font-family: inherit;
+  background: linear-gradient(180deg, #D2691E 0%, #8B4513 100%);
+  color: #FFF;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+}
+button:hover {
+  background: linear-gradient(180deg, #CD853F 0%, #A0522D 100%);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.4);
+}
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+button:disabled {
+  background: linear-gradient(180deg, #666 0%, #444 100%);
+  border-color: #555;
+  cursor: not-allowed;
+  transform: none;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+
+.loading-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 20;
+  color: white;
+  font-size: 1.5em;
+}
+
+.observation-card {
+  display: flex;
+  gap: 10px;
+  padding: 10px;
+  background: #2a2a2a;
+  border-radius: 6px;
+  border: 1px solid #444;
+  align-items: center;
+}
+
+.observation-card img {
+  width: 60px;
+  height: 60px;
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+.observation-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.observation-info a {
+  color: #87CEEB;
+  text-decoration: none;
+}
+.observation-info a:hover {
+  text-decoration: underline;
+}
+
+.observation-info span {
+  font-size: 0.8em;
+  color: #aaa;
+}
+
+h2, h3 {
+  color: #FFD700;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8);
+  margin: 0 0 10px 0;
+  font-weight: 900;
+}
+
+/* Info button and modal */
+.header-with-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.info-button {
+  background: none;
+  border: 2px solid #FFD700;
+  color: #FFD700;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  font-size: 16px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.info-button:hover {
+  background: #FFD700;
+  color: #1A0F0A;
+  transform: scale(1.1);
+}
+
+.info-modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+  padding: 20px;
+}
+
+.info-modal {
+  background: linear-gradient(135deg, #2A1810 0%, #1A0F0A 100%);
+  border: 2px solid #FFD700;
+  border-radius: 8px;
+  max-width: 600px;
+  max-height: 80vh;
+  overflow-y: auto;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+.info-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 20px 0 20px;
+  border-bottom: 1px solid #444;
+  margin-bottom: 20px;
+}
+
+.info-header h3 {
+  color: #FFD700;
+  margin: 0;
+  font-family: 'RuneScape UF', 'Orbitron', monospace;
+}
+
+.close-button {
+  background: none;
+  border: none;
+  color: #FFD700;
+  font-size: 20px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.close-button:hover {
+  background: #FFD700;
+  color: #1A0F0A;
+}
+
+.info-content {
+  padding: 0 20px 20px 20px;
+  color: #E0E0E0;
+  line-height: 1.6;
+}
+
+.info-content h4 {
+  color: #FFD700;
+  margin: 20px 0 10px 0;
+  font-family: 'RuneScape UF', 'Orbitron', monospace;
+}
+
+.info-content p {
+  margin: 10px 0;
+}
+
+.info-content ol, .info-content ul {
+  margin: 10px 0;
+  padding-left: 20px;
+}
+
+.info-content li {
+  margin: 8px 0;
+}
+
+.info-content strong {
+  color: #FFD700;
+}
+
+/* Export options styling */
+.export-options {
+  background: rgba(101, 67, 33, 0.95);
+  border: 2px solid #8B4513;
+  border-radius: 8px;
+  padding: 15px;
+  margin: 15px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+.export-options h4 {
+  color: #F4E4BC;
+  margin: 0 0 10px 0;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.7);
+}
+
+.export-buttons {
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.export-btn {
+  background: linear-gradient(145deg, #8B4513, #A0522D);
+  border: 1px solid #654321;
+  color: #F4E4BC;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.export-btn:hover {
+  background: linear-gradient(145deg, #A0522D, #CD853F);
+  box-shadow: 0 3px 6px rgba(0, 0, 0, 0.4);
+  transform: translateY(-1px);
+}
+
+.export-btn:active {
+  transform: translateY(0);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.3);
+}
