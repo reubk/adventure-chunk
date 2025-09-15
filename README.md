@@ -10,7 +10,7 @@ The tool pulls real observation data from iNaturalist, so you know there's actua
 
 ## Try it out
 
-The app is live at: **https://your-domain.com** (update this when you set up your domain)
+The app is live at: http://3.25.152.237/
 
 ## Using it
 
