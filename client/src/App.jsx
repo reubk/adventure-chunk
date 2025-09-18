@@ -20,7 +20,6 @@ function App() {
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [drivetime, setDrivetime] = useState(30);
   const [chunkSize, setChunkSize] = useState(1);
-  const [taxaFilter, setTaxaFilter] = useState("");
   // Initialize selectedCategories from localStorage to survive HMR reloads
   const [selectedCategories, setSelectedCategories] = useState(() => {
     try {
@@ -450,10 +449,10 @@ Center: ${((min_lat + max_lat) / 2).toFixed(6)}, ${((min_lon + max_lon) / 2).toF
         throw new Error("Please enter a valid chunk size (positive number)");
       }
       
-      // Prepare the taxa filter
+      // Prepare the taxa filter from selected categories only
       const currentTaxaFilter = selectedCategories.length > 0 
         ? selectedCategories.join(',') 
-        : (taxaFilter.trim() || null);
+        : null;
 
       const findChunksResponse = await axios.post(`${API_BASE_URL}/api/find-chunks`, {
         lat,
@@ -627,10 +626,10 @@ Center: ${((min_lat + max_lat) / 2).toFixed(6)}, ${((min_lon + max_lon) / 2).toF
     setObservations([]);
 
     try {
-      // Use current selectedCategories or fallback to taxaFilter
+      // Use selectedCategories for taxa filter
       const taxaFilterValue = selectedCategories.length > 0 
         ? selectedCategories.join(',') 
-        : (taxaFilter && taxaFilter.trim() || null);
+        : null;
 
       const payload = {
         chunkBounds: chunkBounds,
@@ -732,7 +731,7 @@ Center: ${((min_lat + max_lat) / 2).toFixed(6)}, ${((min_lon + max_lon) / 2).toF
               swlat: min_lat,
               nelng: max_lon,
               nelat: max_lat,
-              taxaFilter: selectedCategories.length > 0 ? selectedCategories.join(',') : (taxaFilter.trim() || null)
+              taxaFilter: selectedCategories.length > 0 ? selectedCategories.join(',') : null
           }
       });
       setObservations(obsResponse.data.observations);
@@ -835,17 +834,6 @@ Center: ${((min_lat + max_lat) / 2).toFixed(6)}, ${((min_lon + max_lon) / 2).toF
               </label>
             ))}
           </div>
-        </div>
-        <div className="control-group">
-          <label htmlFor="taxa">Custom Species/Taxa Filter (Optional)</label>
-          <input 
-            id="taxa" 
-            type="text" 
-            placeholder="e.g., Eucalyptus, specific species" 
-            value={taxaFilter} 
-            onChange={(e) => setTaxaFilter(e.target.value)}
-            disabled={selectedCategories.length > 0}
-          />
         </div>
         <button onClick={handleFindChunks} disabled={isLoading}>
           {isLoading ? 'Working...' : 'Find Chunks'}
